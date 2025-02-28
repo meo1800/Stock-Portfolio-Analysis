@@ -19,11 +19,12 @@ def plot_financial_data(df, title):
 
 
 
-
+# # Candle stick chart
 # figure = cf.QuantFig(JPM_df, title = 'JPMorgan Chase Candlestick', name = 'JPM')
 # figure.add_sma(periods= [30,100], column = 'Close', color = ['magenta', 'green'])
 # figure.iplot(theme = 'white', up_color = 'green', down_color = 'red')
 
+# # Bollinger Bands
 # figure = cf.QuantFig(JPM_df, title = 'JPMorgan Chase Candlestick', name = 'JPM')
 # figure.add_bollinger_bands(periods = 20, boll_std= 2, color = ['yellow', 'blue'])
 # figure.iplot()
