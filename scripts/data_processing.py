@@ -14,7 +14,7 @@ def pct_daily_return(df):
     return daily_returns
 
 # Scales stock prices to 1
-def price_scaling(raw_prices_df):
+def price_scalling(raw_prices_df):
     scaled_prices = raw_prices_df.copy()
     for i in scaled_prices.columns[:]:
         scaled_prices[i] = raw_prices_df[i]/raw_prices_df[i].iloc[0]
@@ -24,11 +24,11 @@ def price_scaling(raw_prices_df):
 # Adds columns for Total Portfolio Value and Daily Return
 def weighted_cash_investment(raw_prices_df,weights,initial_amount):
 
-    scaled_prices_df = price_scaling(raw_prices_df)
+    scaled_prices_df = price_scalling(raw_prices_df)
     weighted_portfolio_df = pd.DataFrame(index = scaled_prices_df.index)
     
     # Obtains stock names along with counter to be used as an index
-    for i, stock in enumerate(scaled_prices_df.columns[1:]):
+    for i, stock in enumerate(scaled_prices_df.columns[:]):
         weighted_portfolio_df[stock] = weights[i] * scaled_prices_df[stock]  * initial_amount
     
     # Add column (Total Portfolio Value)
