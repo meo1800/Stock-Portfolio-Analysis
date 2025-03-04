@@ -21,7 +21,7 @@ def generate_portfolio_weights(n):
     # 4. ROI
     # 5. Final portfolio value
 
-def simulation_engine(close_price_df,weights,initial_investment):
+def simulation_engine(close_price_df,weights,initial_investment,RfR):
     # Uses weighted_cash_investment function to process 
     weighted_portfolio_df = weighted_cash_investment(close_price_df,weights,initial_investment)
     
@@ -40,7 +40,7 @@ def simulation_engine(close_price_df,weights,initial_investment):
     expected_volatility = np.sqrt(np.dot(weights, np.dot(covariance, weights)))
 
     # Calcuate Sharpe ratio
-    sharpe_ratio = (expected_return - input_RfR) / expected_volatility
+    sharpe_ratio = (expected_return - RfR) / expected_volatility
    
     return expected_return, expected_volatility, sharpe_ratio, weighted_portfolio_df['Portfolio Value [$]'][-1:].values[0],return_on_investment.values[0]
 
@@ -51,3 +51,4 @@ def print_metrics(simulation_engine_return):
     print('Sharpe Ratio = {:.2f}'.format(simulation_engine_return[2] * 100))
     print('Portfolio Final Value = ${:.2f}'.format(simulation_engine_return[3]))
     print('Return on Investment = {:.2f}'.format(simulation_engine_return[4]))
+
