@@ -1,20 +1,20 @@
-import seaborn as sns
-import matplotlib.pyplot as plt
-import plotly.express as px
-import cufflinks as cf
+# # import seaborn as sns
+# import matplotlib.pyplot as plt
+# import plotly.express as px
+# import cufflinks as cf
 
-# Plots a line chart of stock prices
-def plot_financial_data(df, title):
+# # Plots a line chart of stock prices
+# def plot_financial_data(df, title):
     
-    fig = px.line(title = title)
+#     fig = px.line(title = title)
     
-    # For loop that plots all stock prices in the pandas dataframe df
-    for i in df.columns[:]:
-        fig.add_scatter(x = df['Date'], y = df[i], name = i)
-        fig.update_traces(line_width = 1)
-        fig.update_layout({'plot_bgcolor': "white"})
+#     # For loop that plots all stock prices in the pandas dataframe df
+#     for i in df.columns[:]:
+#         fig.add_scatter(x = df['Date'], y = df[i], name = i)
+#         fig.update_traces(line_width = 1)
+#         fig.update_layout({'plot_bgcolor': "white"})
 
-    fig.show()
+#     fig.show()
 
 
 
