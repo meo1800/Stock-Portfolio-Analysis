@@ -26,8 +26,8 @@ def simulation_engine(close_price_df,weights,initial_investment,RfR):
     weighted_portfolio_df = weighted_cash_investment(close_price_df,weights,initial_investment)
     
     # Calculate ROI
-    return_on_investment = (((weighted_portfolio_df['Portfolio Value [$]'][-1:])/
-                            (weighted_portfolio_df['Portfolio Value [$]'][0])) - 1) * 100
+    return_on_investment = (((weighted_portfolio_df['Portfolio Value [$]'].iloc[-1])/
+                            (weighted_portfolio_df['Portfolio Value [$]'].iloc[0])) - 1) * 100
 
     # Calculate Portfolio Daily Return
     portfolio_daily_return_df = weighted_portfolio_df.drop(columns = ['Portfolio Value [$]','Portfolio Daily Return [%]'])
@@ -42,13 +42,13 @@ def simulation_engine(close_price_df,weights,initial_investment,RfR):
     # Calcuate Sharpe ratio
     sharpe_ratio = (expected_return - RfR) / expected_volatility
    
-    return expected_return, expected_volatility, sharpe_ratio, weighted_portfolio_df['Portfolio Value [$]'][-1:].values[0],return_on_investment.values[0]
+    return expected_return, expected_volatility, sharpe_ratio, weighted_portfolio_df['Portfolio Value [$]'][-1:].values[0],return_on_investment
 
 # Print Simulation Engine Outcomes
 def print_metrics(simulation_engine_return):
     print('Expected Portfolio Annual Return = {:.2f}%'.format(simulation_engine_return[0] * 100))
     print('Portfolio Standard Deviation (Volatility) = {:.2f}'.format(simulation_engine_return[1] * 100))
-    print('Sharpe Ratio = {:.2f}'.format(simulation_engine_return[2] * 100))
-    print('Portfolio Final Value = ${:.2f}'.format(simulation_engine_return[3]))
-    print('Return on Investment = {:.2f}'.format(simulation_engine_return[4]))
+    print('Sharpe Ratio = {:.2f}'.format(simulation_engine_return[2]))
+    print('Portfolio Final Value = ${:,.2f}'.format(simulation_engine_return[3]))
+    print('Return on Investment = {:,.2f}%'.format(simulation_engine_return[4]))
 
