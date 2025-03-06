@@ -1,6 +1,6 @@
 from scripts.data_processing import get_financial_data,pct_daily_return,price_scalling
 from scripts.analysis import generate_portfolio_weights,simulation_engine,print_metrics
-from scripts.visualizations import plot_financial_data
+# from scripts.visualizations import plot_financial_data
 # import streamlit as st
 import numpy as np
 import pandas as pd
@@ -18,7 +18,7 @@ input_start = "2020-03-01"
 input_end = "2025-03-01"
 input_RfR = 0.03
 input_initial_investment = 1000000
-input_runs = 100
+input_runs = 10
 
 
 # Uses inputs to create a df using yfinance to obtain financial data
@@ -59,9 +59,10 @@ for i in range(sim_runs):
     weights_runs[i,:] = weights
 
     # Using simulation_engine function 
-    metrics = expected_portfolio_returns_runs[i],volatility_runs[i],sharpe_ratio_runs[i],final_value_runs[i],return_on_investment_runs[i] = simulation_engine(portfolio_close_price_df,weights,input_initial_investment,input_rfr)
+    metrics = expected_portfolio_returns_runs[i],volatility_runs[i],sharpe_ratio_runs[i],final_value_runs[i],return_on_investment_runs[i] = simulation_engine(portfolio_close_price_df,weights,input_initial_investment,input_RfR)
     
-    # print portoflio metrics with each run 
+    # print weights and portoflio metrics with each run 
+    print("Weights = {}".format(weights_runs[i].round(3)))
     print_metrics(metrics)
     # print("Simulation Run = {}".format(i))
     # print("Weights = {}".format(weights_runs[i].round(3)))
