@@ -1,7 +1,8 @@
-from scripts.data_processing import weighted_cash_investment
+from scripts.data_processing import weighted_cash_investment, get_financial_data
 import random
 import pandas as pa
 import numpy as np
+import streamlit as st
 
 # Generates random portfolio weights for a given number of stocks, n 
 def generate_portfolio_weights(n):
@@ -52,3 +53,60 @@ def print_metrics(simulation_engine_return):
     print('Portfolio Final Value = ${:,.2f}'.format(simulation_engine_return[3]))
     print('Return on Investment = {:,.2f}%'.format(simulation_engine_return[4]))
 
+def print_metrics_st(simulation_engine_return):
+    st.write('Expected Portfolio Annual Return = {:.2f}%'.format(simulation_engine_return[0] * 100))
+    st.write('Portfolio Standard Deviation (Volatility) = {:.2f}'.format(simulation_engine_return[1] * 100))
+    st.write('Sharpe Ratio = {:.2f}'.format(simulation_engine_return[2]))
+    st.write('Portfolio Final Value = ${:,.2f}'.format(simulation_engine_return[3]))
+    st.write('Return on Investment = {:,.2f}%'.format(simulation_engine_return[4]))
+
+def monte_carlo_simulation(stocks,start,end,RfR,initial_investment,runs):
+   # Uses inputs to create a df using yfinance to obtain financial data
+    # portfolio_close_price_df = get_financial_data(stocks,start,end)
+
+    try:
+    # Get valid stock data and missing tickers
+        portfolio_close_price_df, missing_tickers = get_financial_data(stocks, start, end)
+        valid_tickers = list(portfolio_close_price_df.columns)
+
+        if missing_tickers:
+            st.warning(f"Warning: No data available for {', '.join(missing_tickers)} within the selected date range. They have been removed from the portfolio.")
+
+        if not valid_tickers:
+            st.error("No valid stock data found for the selected date range. Please check your tickers.")
+            return st.success(f"Running simulation for tickers: {', '.join(valid_tickers)}")
+
+        # Define input variables
+        sim_runs = runs
+        n = len(valid_tickers)
+        
+        
+        # Uses inputs to create a df using yfinance to obtain financial data
+        portfolio_close_price_df = get_financial_data(stocks,start,end)
+
+        # Defining input variables 
+        # From user inputs
+        sim_runs = runs
+        n = len(stocks)
+
+        # Placeholders to store values
+        weights_runs = np.zeros((sim_runs, n))
+        sharpe_ratio_runs = np.zeros(sim_runs)
+        expected_portfolio_returns_runs = np.zeros(sim_runs)
+        volatility_runs = np.zeros(sim_runs)
+        return_on_investment_runs = np.zeros(sim_runs)
+        final_value_runs = np.zeros(sim_runs)
+
+        for i in range(sim_runs):
+            # Generate random weights
+            weights = generate_portfolio_weights(n)
+            # Store weights in predefined matrix
+            weights_runs[i,:] = weights
+
+            # Using simulation_engine function 
+            metrics = expected_portfolio_returns_runs[i],volatility_runs[i],sharpe_ratio_runs[i],final_value_runs[i],return_on_investment_runs[i] = simulation_engine(portfolio_close_price_df,weights,initial_investment,RfR)
+        
+    except ValueError as e:
+        st.error(str(e))
+
+    return print_metrics_st(metrics)
