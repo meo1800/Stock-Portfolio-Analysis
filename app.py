@@ -1,5 +1,5 @@
 import streamlit as st
-from scripts.analysis import monte_carlo_simulationgit as
+from scripts.analysis import monte_carlo_simulation
 
 st.title("Hello, Streamlit!")
 
