@@ -84,6 +84,12 @@ def monte_carlo_simulation(stocks,start,end,RfR,initial_investment,runs):
         weights_runs[i,:] = weights
 
         # Using simulation_engine function 
-        metrics = expected_portfolio_returns_runs[i],volatility_runs[i],sharpe_ratio_runs[i],final_value_runs[i],return_on_investment_runs[i] = simulation_engine(portfolio_close_price_df,weights,initial_investment,RfR)
+        expected_portfolio_returns_runs[i],volatility_runs[i],sharpe_ratio_runs[i],final_value_runs[i],return_on_investment_runs[i] = simulation_engine(portfolio_close_price_df,weights,initial_investment,RfR)
 
-    return print_metrics_st(metrics)
+    # Finds the index and weights of the portfolio with the largest Sharpe ratio
+    max_sharpe_index = np.argmax(sharpe_ratio_runs)
+    weights_max_sharpe = weights_runs[max_sharpe_index, :]
+
+    optimal_metrics = optimal_portfolio_return, optimal_volatility, optimal_sharpe_ratio, highest_final_value, optimal_return_on_investment = simulation_engine(portfolio_close_price_df,weights_max_sharpe,initial_investment,RfR)
+
+    return st.write('Portfolio weights corresponding to the max Sharpe ratio:', weights_max_sharpe),print_metrics_st(optimal_metrics)
