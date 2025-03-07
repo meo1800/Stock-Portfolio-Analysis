@@ -22,13 +22,13 @@ import pandas as pd
 
 def main_py(stocks,start,end,RfR,initial_investment,runs):
     # Uses inputs to create a df using yfinance to obtain financial data
-    portfolio_close_price_df = get_financial_data(input_stocks,input_start,input_end)
+    portfolio_close_price_df = get_financial_data(stocks,start,end)
 
-    # Scales stock prices to 1
-    scaled_portfolio_df = price_scalling(portfolio_close_price_df)
+    # # Scales stock prices to 1
+    # scaled_portfolio_df = price_scalling(portfolio_close_price_df)
 
-    # Calculates Daily Return of each stock
-    portfolio_daily_returns_df = pct_daily_return(portfolio_close_price_df)
+    # # Calculates Daily Return of each stock
+    # portfolio_daily_returns_df = pct_daily_return(portfolio_close_price_df)
 
     # # Returns asset allocation according to a given weight and initial investment
     # asset_allocation = weighted_cash_investment(portfolio_close_price_df,)
@@ -40,9 +40,8 @@ def main_py(stocks,start,end,RfR,initial_investment,runs):
 
     # Defining input variables 
     # From user inputs
-    sim_runs = input_runs
-    initial_investment = input_initial_investment
-    n = len(input_stocks)
+    sim_runs = runs
+    n = len(stocks)
 
     # Placeholders to store values
     weights_runs = np.zeros((sim_runs, n))
@@ -59,16 +58,16 @@ def main_py(stocks,start,end,RfR,initial_investment,runs):
         weights_runs[i,:] = weights
 
         # Using simulation_engine function 
-        metrics = expected_portfolio_returns_runs[i],volatility_runs[i],sharpe_ratio_runs[i],final_value_runs[i],return_on_investment_runs[i] = simulation_engine(portfolio_close_price_df,weights,input_initial_investment,input_RfR)
+        metrics = expected_portfolio_returns_runs[i],volatility_runs[i],sharpe_ratio_runs[i],final_value_runs[i],return_on_investment_runs[i] = simulation_engine(portfolio_close_price_df,weights,initial_investment,RfR)
     return metrics    
     
 
-    # # print weights and portoflio metrics with each run 
-    # print("Weights = {}".format(weights_runs[i].round(3)))
-    # print_metrics(metrics)
-    # # print("Simulation Run = {}".format(i))
-    # # print("Weights = {}".format(weights_runs[i].round(3)))
-    # # print("Final Value = ${:.2f}".format(final_value_runs[i]))
-    # # print("Sharpe ratio = {:.2f}".format(sharpe_ratio_runs[i]))
-    # print("\n")
+# # print weights and portoflio metrics with each run 
+# print("Weights = {}".format(weights_runs[i].round(3)))
+# print_metrics(metrics)
+# # print("Simulation Run = {}".format(i))
+# # print("Weights = {}".format(weights_runs[i].round(3)))
+# # print("Final Value = ${:.2f}".format(final_value_runs[i]))
+# # print("Sharpe ratio = {:.2f}".format(sharpe_ratio_runs[i]))
+# print("\n")
 
