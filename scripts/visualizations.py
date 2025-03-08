@@ -1,7 +1,8 @@
-# # import seaborn as sns
-# import matplotlib.pyplot as plt
+import seaborn as sns
+import matplotlib.pyplot as plt
 # import plotly.express as px
 # import cufflinks as cf
+from scripts.data_processing import pct_daily_return
 
 # # Plots a line chart of stock prices
 # def plot_financial_data(df, title):
@@ -34,10 +35,22 @@
 # fig = px.histogram(daily_returns_df.drop(columns = ['Date']))
 # fig.update_layout({'plot_bgcolor': "white"})
 
-# # Plot a heatmap showing the correlations between daily returns
-# # Strong positive correlations between Catterpillar and John Deere - both into heavy equipment and machinery
-# # META and Google - both into Tech and Cloud Computing
-# plt.figure(figsize = (10, 8))
-# sns.heatmap(daily_returns_df.drop(columns = ['Date']).corr(), annot = True);
+# Plot a heatmap showing the correlations between daily returns
+def plot_heatmap(close_price_df):
+    fig, ax = plt.subplots(figsize = (10, 8))
+    sns.heatmap(
+        pct_daily_return(close_price_df).corr(),
+        annot = True,
+        ax = ax,
+        annot_kws={"size": 10}
+    )
+    # Adjust axes label font size
+    ax.set_xlabel("Stocks", fontsize=10)
+    ax.set_ylabel("Stocks", fontsize=10) 
+
+    # Adjust tick labels font size
+    ax.tick_params(axis='both', labelsize=8)
+
+    return fig
 
 # sns.pairplot(daily_returns_df);
