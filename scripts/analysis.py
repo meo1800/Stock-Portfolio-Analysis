@@ -92,4 +92,4 @@ def monte_carlo_simulation(stocks,start,end,RfR,initial_investment,runs):
 
     optimal_metrics = optimal_portfolio_return, optimal_volatility, optimal_sharpe_ratio, highest_final_value, optimal_return_on_investment = simulation_engine(portfolio_close_price_df,weights_max_sharpe,initial_investment,RfR)
 
-    return st.write('Portfolio weights corresponding to the max Sharpe ratio:', weights_max_sharpe),print_metrics_st(optimal_metrics)
+    return st.write('Portfolio weights corresponding to the max Sharpe ratio:', ', '.join([f"{w:.4f}" for w in weights_max_sharpe])),print_metrics_st(optimal_metrics)
